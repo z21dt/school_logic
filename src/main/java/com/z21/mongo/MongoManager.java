@@ -48,7 +48,7 @@ public class MongoManager {
 		this.user = user;
 		this.password = password;
 		
-		MongoClientURI uri = new MongoClientURI("mongodb://heroku_r9h85zmp:3tr0t4kf11ru7nnh98tc6vns20@ds249269.mlab.com:49269/heroku_r9h85zmp");
+		MongoClientURI uri = new MongoClientURI("mongodb://heroku_r9h85zmp:3tr0t4kf11ru7nnh98tc6vns20@ds249269.mlab.com:49269/heroku_r9h85zmp?retryWrites=false");
 		mongoClient = new MongoClient(uri);
 	}
 
