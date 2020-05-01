@@ -10,6 +10,26 @@ public class MongoManager {
 	
 	private String host;
 	
+	private String user;
+	
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	private String password;
+	
 	private int port;
 	
 	
@@ -20,10 +40,12 @@ public class MongoManager {
 		
 	}
 	
-	public MongoManager(String database, String host, int port) {
+	public MongoManager(String database, String host, int port, String user, String password) {
 		this.database = database;
 		this.host = host;
 		this.port = port;
+		this.user = user;
+		this.password = password;
 		
 		mongoClient = new MongoClient(host, port);
 	}

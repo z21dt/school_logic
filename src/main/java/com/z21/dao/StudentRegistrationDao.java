@@ -20,7 +20,8 @@ public class StudentRegistrationDao extends AbstractDao{
 		
 		System.out.println("Initialize UserAuthenticationDao");
 		this.collection = "students";
-		this.setDatabase("schooldb");
+		//this.setDatabase("schooldb");
+		this.setDatabase("heroku_r9h85zmp");
 	}
 	
 	public Student registerNewStudent( Student student) {

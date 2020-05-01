@@ -9,10 +9,30 @@ public abstract class AbstractDao {
 	
 	protected String database;
 	
-	private String defaultHost = "localhost";
+	private String defaultHost = "ds249269.mlab.com";
 	
-	private int defaultPort = 27017;
+	private int defaultPort = 49269;
 	
+	private String user = "heroku_r9h85zmp";
+	
+	private String password = "3tr0t4kf11ru7nnh98tc6vns20";
+	
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public String getDatabase() {
 		return database;
