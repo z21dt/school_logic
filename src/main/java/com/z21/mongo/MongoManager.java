@@ -2,6 +2,7 @@ package com.z21.mongo;
 
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 
 public class MongoManager {
 	
@@ -47,7 +48,8 @@ public class MongoManager {
 		this.user = user;
 		this.password = password;
 		
-		mongoClient = new MongoClient(host, port);
+		MongoClientURI uri = new MongoClientURI("mongodb://heroku_r9h85zmp:3tr0t4kf11ru7nnh98tc6vns20@ds249269.mlab.com:49269/heroku_r9h85zmp");
+		mongoClient = new MongoClient(uri);
 	}
 
 	public String getDatabase() {
