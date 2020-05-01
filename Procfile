@@ -1,1 +1,1 @@
-web: java -jar target/dependency/webapp-runner.jar target/school_reg.war
+web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/school_reg.war
