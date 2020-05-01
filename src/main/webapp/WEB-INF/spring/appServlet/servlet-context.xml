@@ -6,9 +6,9 @@
 			 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 			 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<beans:bean id="propertyConfigurer"
+	<!-- <beans:bean id="propertyConfigurer"
 				class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-				p:location="file:/etc/tomcat7/rmx-environment.properties" />
+				p:location="file:/etc/tomcat7/rmx-environment.properties" /> -->
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 
 	<!-- Enables the Spring MVC @Controller programming model -->

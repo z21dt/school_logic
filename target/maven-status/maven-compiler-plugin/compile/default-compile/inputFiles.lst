@@ -1,0 +1,17 @@
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/be/models/SchoolInfo.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/fe/models/UserLoginReq.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/mongo/MongoManager.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/controllers/SchoolSystemController.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/dao/StudentRegistrationDao.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/be/models/User.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/fe/models/AbstractResp.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/services/UserAuthenticationService.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/services/StudentRegistrationService.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/fe/models/UserLoginResp.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/be/models/Student.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/controllers/UserAutenticationController.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/dao/AbstractDao.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/controllers/StudentRegistrationController.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/dao/util/SchoolDBRegistry.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/be/models/Parent.java
+/Users/jakeplaras/Work/z21/api/src/main/java/com/z21/dao/UserAuthenticationDao.java
