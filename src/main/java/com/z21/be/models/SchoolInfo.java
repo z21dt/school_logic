@@ -25,6 +25,16 @@ public class SchoolInfo {
 	private String footerTextColor;
 	
 	private String address;
+	
+	private String logo;
+
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
 
 	public Long getSchoolId() {
 		return schoolId;

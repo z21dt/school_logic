@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.z21.be.models.SchoolInfo;
 import com.z21.be.models.Student;
 import com.z21.services.StudentRegistrationService;
 
-@Controller
+@RestController
 @RequestMapping("registration/student")
 public class StudentRegistrationController {
 	
