@@ -47,7 +47,7 @@ public class SchoolSystemController {
 				school.setSchoolName("St. Lorenzo Ruiz Academy of Tagum, Inc.");
 				school.setSchoolDescription("Say something about SLRA here...");
 				school.setAddress("Marquez rd cor Apokon Road, Apokon Tagum City, 8100");
-				school.setLogo("assets/images/SLRA_logo.png");
+				school.setLogo("assets/images/slra_logo.png");
 			}else if(schoolCode.equals("LCT")) {
 			
 				school.setSchoolCode(schoolCode);
