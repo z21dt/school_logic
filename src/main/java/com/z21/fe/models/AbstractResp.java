@@ -13,7 +13,7 @@ public abstract class AbstractResp {
 	public void setResponseCode(String responseCode) {
 		this.responseCode = responseCode;
 	}
-
+ 
 	public String getStatusMessage() {
 		return statusMessage;
 	}

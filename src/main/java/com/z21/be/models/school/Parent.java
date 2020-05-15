@@ -1,6 +1,8 @@
-package com.z21.be.models;
+package com.z21.be.models.school;
 
 public class Parent {
+	
+	private Long studentId;
 	
 	private Long parentId;
 	
@@ -19,7 +21,7 @@ public class Parent {
 	private String email;
 	
 	private int type;
-	
+		
 	public enum TYPE {FATHER, MOTHER, GUARDIAN};
 
 	public Long getParentId() {
@@ -92,6 +94,14 @@ public class Parent {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public Long getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(Long studentId) {
+		this.studentId = studentId;
 	}
 	
 	

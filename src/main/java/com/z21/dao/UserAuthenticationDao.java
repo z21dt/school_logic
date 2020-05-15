@@ -4,23 +4,22 @@ import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
-import com.z21.be.models.User;
+import com.z21.be.models.common.User;
 import com.z21.mongo.MongoManager;
 
 public class UserAuthenticationDao extends AbstractDao{
 	
-	
+	private String database = "common";
 
 	public UserAuthenticationDao() {
 		
 		System.out.println("Initialize UserAuthenticationDao");
-		this.collection = "user_profile";
-		this.setDatabase("admin");
+		this.collection = "userprofile";
 	}
 	
 	public User registerNewUser(User user) {
 		
-		MongoManager mongo = getMongoManager();
+		MongoManager mongo = getMongoManager(database);
 		DBCollection collection = mongo.getDB().getCollection(this.collection);
 		WriteResult result = collection.insert(createUserObject(user));
 			
@@ -33,7 +32,7 @@ public class UserAuthenticationDao extends AbstractDao{
 		 mongo.close();
 		 
 		 return user;
-	} 
+	}  
 
 	
 	private DBObject createUserObject(User user) {
@@ -56,7 +55,7 @@ public class UserAuthenticationDao extends AbstractDao{
 	public User authenticate(String userName, String password) {
 		User user = null;
 		
-		MongoManager mongo = getMongoManager();
+		MongoManager mongo = getMongoManager(database);
 		
 		DBObject query = BasicDBObjectBuilder.start().add("userName", userName).get();
 		DBObject result = mongo.getDB().getCollection(this.collection).findOne(query);

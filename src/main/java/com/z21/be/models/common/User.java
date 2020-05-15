@@ -1,9 +1,8 @@
-package com.z21.be.models;
+package com.z21.be.models.common;
 
 public class User {
 
-	
-	private String schoolId;
+	private String schoolCode;
 	
 	private Long userId;
 	
@@ -57,20 +56,20 @@ public class User {
 		this.contactNumber = contactNumber;
 	}
 
-	public String getSchoolId() {
-		return schoolId;
-	}
-
-	public void setSchoolId(String schoolId) {
-		this.schoolId = schoolId;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getFullName() {
 		return fullName;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public String getSchoolCode() {
+		return schoolCode;
+	}
+
+	public void setSchoolCode(String schoolCode) {
+		this.schoolCode = schoolCode;
 	}
 	
 	

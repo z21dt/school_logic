@@ -8,7 +8,7 @@
 
 	<beans:bean id="propertyConfigurer"
 				class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-				p:location="file:/etc/tomcat7/rmx-environment.properties" />
+				p:location="file:/Users/johnperion/WorkFiles/z21/sara/webservice/school_reg_ws/src/main/resources/school_reg_application.properties" />
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 
 	<!-- Enables the Spring MVC @Controller programming model -->
@@ -17,7 +17,7 @@
 	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<beans:property name="messageConverters">
 			<beans:list>
-				<beans:ref bean="jsonMessageConverter" />
+				<beans:ref bean="jsonMessageConverter" /> 
 			</beans:list>
 		</beans:property>
 	</beans:bean>
@@ -45,6 +45,15 @@
 	
 
 	<beans:bean id="StudentRegistrationDao" class="com.z21.dao.StudentRegistrationDao">
+			<beans:property name="defaultHost" value="${mongo.db.host}" />
+			<beans:property name="defaultPort" value="${mongo.db.port}" />	
+			
+			<beans:property name="emailSender" value="${email.sender}" />	
+			<beans:property name="emailTitle" value="${email.title}" />	
+			<beans:property name="emailMessage" value="${email.message}" />	
+			<beans:property name="emailPass" value="${email.pass}" />	
+			
+			
 	</beans:bean>
 
 
@@ -54,9 +63,20 @@
 	
 	
 	<beans:bean id="UserAuthenticationDao" class="com.z21.dao.UserAuthenticationDao">
+			<beans:property name="defaultHost" value="${mongo.db.host}" />
+			<beans:property name="defaultPort" value="${mongo.db.port}" />	
+	</beans:bean>
+	
+	
+		
+	<beans:bean id="SchoolConfigurationService" class="com.z21.services.SchoolConfigurationService">
+		<beans:property name="configurationDao" ref="SchoolConfigurationDao" />
 	</beans:bean>
 
-
+	<beans:bean id="SchoolConfigurationDao" class="com.z21.dao.SchoolConfigurationDao">
+			<beans:property name="defaultHost" value="${mongo.db.host}" />
+			<beans:property name="defaultPort" value="${mongo.db.port}" />			
+	</beans:bean>
 
 
 </beans:beans>

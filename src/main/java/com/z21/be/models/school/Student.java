@@ -1,35 +1,41 @@
-package com.z21.be.models;
+package com.z21.be.models.school;
 
 public class Student {
-	
-	
+		
 	private Long studentId;
-	
+		
 	private String lrn;
 	
 	private String firstName;
 	
 	private String lastName;
 	
-	private String middleName;
+	private String middleName; 
 	
 	private String gender;
 	
 	private String nationality;
 	
-	private String gradeLevel;
+	private String gradeLevel; 
 	
 	private String address;
 	
 	private String birthDate;
 	
 	private Long age;
+	
+	private String mobilePhone;
 		
+	private String emailAddress;
+	
 	private Parent father;
 	
 	private Parent mother;
 	
 	private Parent guardian;
+	
+	private String type;
+	
 
 	public Long getStudentId() {
 		return studentId;
@@ -141,6 +147,30 @@ public class Student {
 
 	public void setGuardian(Parent guardian) {
 		this.guardian = guardian;
+	}
+
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
+
+	public String getType() {
+		return type;
+	} 
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress; 
 	}
 	
 	

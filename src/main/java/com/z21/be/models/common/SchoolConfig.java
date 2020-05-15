@@ -1,6 +1,6 @@
-package com.z21.be.models;
+package com.z21.be.models.common;
 
-public class SchoolInfo {
+public class SchoolConfig {
 	
 	private Long schoolId;
 	
@@ -26,6 +26,10 @@ public class SchoolInfo {
 	
 	private String address;
 
+	private String logo;
+	
+	private String uid;
+	
 	public Long getSchoolId() {
 		return schoolId;
 	}
@@ -121,6 +125,22 @@ public class SchoolInfo {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	
 	

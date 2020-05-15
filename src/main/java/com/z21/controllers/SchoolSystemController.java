@@ -3,31 +3,80 @@ package com.z21.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.z21.be.models.SchoolInfo;
+import com.z21.be.models.common.SchoolConfig;
+import com.z21.services.SchoolConfigurationService;
 
 @Controller
 @RequestMapping("admin/schools")
 public class SchoolSystemController {
 	
+	@Autowired
+	SchoolConfigurationService schoolConfiService;
 	
 	@RequestMapping(value = "help", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody String getHelp() {
 		return "test";
 	}
 	
+
+
 	@RequestMapping(value = "getSchoolConfig", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody SchoolInfo getSchoolInfo(@RequestParam(value = "schoolId", required = true) String code,		
+	public @ResponseBody SchoolConfig getSchoolInformation(@RequestParam(value = "schoolCode", required = true) String code,		
 									HttpServletRequest servletRequest,
 									HttpServletResponse servletResponse) {		
 		
 		
-		SchoolInfo school = new SchoolInfo();
+		System.out.println("Get Code "+code);
+		 
+
+		String scode = code.toLowerCase();
+		SchoolConfig conf =  schoolConfiService.getSchoolInfo(scode);
+		
+		servletResponse.addHeader("Access-Control-Allow-Origin", "*");
+
+		return conf;
+	}
+	 
+	
+	@RequestMapping(value = "createSchoolConfig", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody SchoolConfig getSchoolInformation(@RequestBody SchoolConfig  school,		
+									HttpServletRequest servletRequest,
+									HttpServletResponse servletResponse) {		
+		
+		servletResponse.addHeader("Access-Control-Allow-Origin", "*");
+
+		System.out.println("Create School "+school); 
+		return schoolConfiService.createSchoolInfo(school);
+	}
+	
+	
+	@RequestMapping(value = "updateSchoolConfig", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody SchoolConfig updateSchoolConfig(@RequestBody SchoolConfig  school,		
+									HttpServletRequest servletRequest,
+									HttpServletResponse servletResponse) {		
+		
+		servletResponse.addHeader("Access-Control-Allow-Origin", "*");
+
+		System.out.println("Update School "+school); 
+		return schoolConfiService.updateSchoolInfo(school);
+	}
+	
+	
+	@RequestMapping(value = "_getSchoolConfig", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody SchoolConfig getSchoolInfo(@RequestParam(value = "schoolId", required = true) String code,		
+									HttpServletRequest servletRequest,
+									HttpServletResponse servletResponse) {		
+		
+		
+		SchoolConfig school = new SchoolConfig();
 
 		System.out.println("Looking for School : "+code);
 		if(code != null) {

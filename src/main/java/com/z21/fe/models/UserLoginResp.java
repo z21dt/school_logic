@@ -1,6 +1,6 @@
 package com.z21.fe.models;
 
-import com.z21.be.models.User;
+import com.z21.be.models.common.User;
 
 public class UserLoginResp extends AbstractResp{
 
@@ -13,7 +13,7 @@ public class UserLoginResp extends AbstractResp{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+	 
 	
 	
 }

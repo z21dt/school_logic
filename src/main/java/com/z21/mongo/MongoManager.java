@@ -4,8 +4,7 @@ import com.mongodb.DB;
 import com.mongodb.MongoClient;
 
 public class MongoManager {
-	
-	
+		
 	private String database;
 	
 	private String host;
@@ -21,6 +20,8 @@ public class MongoManager {
 	}
 	
 	public MongoManager(String database, String host, int port) {
+		
+		System.out.println("Mongo Manager "+host+":"+port+"/"+database);
 		this.database = database;
 		this.host = host;
 		this.port = port;

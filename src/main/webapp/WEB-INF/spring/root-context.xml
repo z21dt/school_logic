@@ -6,7 +6,7 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<beans:bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-				p:location="file:/etc/tomcat7/advwebservice-config.properties" />
+				p:location="file:/Users/johnperion/WorkFiles/z21/sara/webservice/school_reg_ws/src/main/resources/school_reg_application.properties" />
 
 
 

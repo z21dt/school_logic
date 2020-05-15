@@ -1,26 +1,22 @@
 package com.z21.dao;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
+import com.z21.be.models.school.Student;
 import com.z21.mongo.MongoManager;
 
 public abstract class AbstractDao {
 	
 	protected String collection;
-	
-	protected String database;
-	
+		
+
 	private String defaultHost = "localhost";
 	
 	private int defaultPort = 27017;
 	
-
-	public String getDatabase() {
-		return database;
-	}
-
-	public void setDatabase(String database) {
-		this.database = database;
-	}
 
 	public String getDefaultHost() {
 		return defaultHost;
@@ -37,7 +33,6 @@ public abstract class AbstractDao {
 	public void setDefaultPort(int defaultPort) {
 		this.defaultPort = defaultPort;
 	}
-
 	
 	
 	public String getCollection() {
@@ -48,10 +43,10 @@ public abstract class AbstractDao {
 		this.collection = collection;
 	}
 
-	public MongoManager getMongoManager() {
+	public MongoManager getMongoManager(String database) {
 		return new MongoManager(database, defaultHost, defaultPort);
 	}
-	
+
 	
 
 	public String getString(DBObject obj , String key) {
@@ -70,5 +65,26 @@ public abstract class AbstractDao {
 		
 
 	
-	
+
+	public DBObject createDBObject(Object obj) {
+		BasicDBObject dbObject = new BasicDBObject();
+		
+	      ObjectMapper mapper = new ObjectMapper();
+	      //Converting the Object to JSONString
+	      try {
+			String jsonString = mapper.writeValueAsString(obj);
+			
+			System.out.print("JSON "+jsonString);
+			
+			 dbObject = (BasicDBObject) JSON.parse(jsonString);
+		
+	      } catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	      }
+		
+		
+		return dbObject;
+		
+	}
 }
