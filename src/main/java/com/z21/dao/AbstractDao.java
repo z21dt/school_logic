@@ -65,7 +65,7 @@ public abstract class AbstractDao {
 	}
 
 	public MongoManager getMongoManager(String database) {
-		return new MongoManager(database, defaultHost, defaultPort, user, password);
+		return new MongoManager(database, defaultHost, defaultPort, mongoUser, mongoPass);
 	}
 
 	
