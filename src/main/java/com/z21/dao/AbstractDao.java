@@ -11,11 +11,14 @@ import com.z21.mongo.MongoManager;
 public abstract class AbstractDao {
 	
 	protected String collection;
-		
-
-	private String defaultHost = "localhost";
 	
 	private int defaultPort = 27017;
+	
+	private String defaultHost = "ds249269.mlab.com";
+	
+	private String user = "heroku_r9h85zmp";
+	
+	private String password = "3tr0t4kf11ru7nnh98tc6vns20";
 	
 
 	public String getDefaultHost() {
@@ -44,7 +47,7 @@ public abstract class AbstractDao {
 	}
 
 	public MongoManager getMongoManager(String database) {
-		return new MongoManager(database, defaultHost, defaultPort);
+		return new MongoManager(database, defaultHost, defaultPort, user, password);
 	}
 
 	
