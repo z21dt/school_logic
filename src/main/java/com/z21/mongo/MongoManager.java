@@ -1,8 +1,12 @@
 package com.z21.mongo;
 
+import java.util.Arrays;
+
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 
 public class MongoManager {
 		
@@ -20,16 +24,28 @@ public class MongoManager {
 		
 	}
 	
-	public MongoManager(String database, String host, int port, String user, String password) {
+	public MongoManager(String database, String host, int port) {
 		
 		System.out.println("Mongo Manager "+host+":"+port+"/"+database);
 		this.database = database;
 		this.host = host;
 		this.port = port;
-		//MongoClientURI uri = new MongoClientURI("mongodb://heroku_r9h85zmp:3tr0t4kf11ru7nnh98tc6vns20@ds249269.mlab.com:49269/heroku_r9h85zmp?retryWrites=false");
-		MongoClientURI uri = new MongoClientURI("mongodb://" + user + ":" + password + "@" + host + ":" + port + "/" + user + "?retryWrites=false");
 		
-		mongoClient = new MongoClient(uri);
+		//mongoClient = new MongoClient(host, port);
+		
+		
+		 String user ="heroku_r9h85zmp"; // the user name
+		// String database = "admin"; // the name of the database in which the user is defined
+		 char[] password ="3tr0t4kf11ru7nnh98tc6vns20".toCharArray(); // the password as a character array
+		 // ...
+
+		 MongoCredential credential = MongoCredential.createCredential(user, "admin", password);
+
+		// MongoClientOptions options = MongoClientOptions.builder().sslEnabled(true).build();
+		 MongoClientOptions options = MongoClientOptions.builder().sslEnabled(false).build();
+		 mongoClient = new MongoClient(new ServerAddress("localhost", 27017),
+		                                           Arrays.asList(credential),
+		                                           options);
 	}
 
 	public String getDatabase() {

@@ -30,6 +30,9 @@ public class SchoolConfig {
 	
 	private String uid;
 	
+	private String registarEmail;
+
+	
 	public Long getSchoolId() {
 		return schoolId;
 	}
@@ -141,6 +144,14 @@ public class SchoolConfig {
 
 	public void setUid(String uid) {
 		this.uid = uid;
+	}
+
+	public String getRegistarEmail() {
+		return registarEmail;
+	}
+
+	public void setRegistarEmail(String registarEmail) {
+		this.registarEmail = registarEmail;
 	}
 	
 	

@@ -172,6 +172,15 @@ public class Student {
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress; 
 	}
+
+	@Override
+	public String toString() {
+		return "Student [studentId=" + studentId + ", lrn=" + lrn + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", middleName=" + middleName + ", gender=" + gender + ", nationality=" + nationality
+				+ ", gradeLevel=" + gradeLevel + ", address=" + address + ", birthDate=" + birthDate + ", age=" + age
+				+ ", mobilePhone=" + mobilePhone + ", emailAddress=" + emailAddress + ", father=" + father + ", mother="
+				+ mother + ", guardian=" + guardian + ", type=" + type + "]";
+	}
 	
 	
 

@@ -12,9 +12,9 @@ public class StudentRegistrationService {
 	
 	private StudentRegistrationDao studentRegistrationDao;
 	
-	public StudentAccount registerStudent(String schoolCode,  Student student) {
-		
-		return studentRegistrationDao.registerStudent(schoolCode, student);
+	public StudentAccount registerStudent(String schoolCode,  Student student, String preferredPayment) {
+		 
+		return studentRegistrationDao.registerStudent(schoolCode, student, preferredPayment);
 	}
 	
 	public List<Student> findStudents(String schoolCode, String key, String filter) {

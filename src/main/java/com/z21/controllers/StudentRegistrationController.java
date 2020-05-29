@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.z21.be.models.school.Student;
@@ -56,7 +57,7 @@ public class StudentRegistrationController {
 		student.setBirthDate(birthDate);
 		student.setMobilePhone(mobilePhone);
 		
-		StudentAccount studentAcc = studentRegistrationService.registerStudent(scode, student );
+		StudentAccount studentAcc = studentRegistrationService.registerStudent(scode, student , "otc" );
 		
 		resp.setEnrollmentStatus(studentAcc.getAccountStatus());
 		resp.setEmailAddress(emailAddress);
@@ -64,7 +65,7 @@ public class StudentRegistrationController {
 		resp.setStudentName(lastName+" , "+firstName+" "+middleName);
 		
 		return  resp;
-	}
+	}   
 			
 
 	@RequestMapping(value = "register_new", method = RequestMethod.GET, produces = "application/json")
@@ -131,11 +132,63 @@ public class StudentRegistrationController {
 	
 
 	
+	@RequestMapping(value="uploadFile",method=RequestMethod.POST)  
+	public  @ResponseBody  String 	uploadFile(	@RequestParam MultipartFile file,
+																@RequestParam(value = "docDescr", required = false) String docDescr, 
+																@RequestParam(value = "studentId", required = false) Long studentId, 
+																@RequestParam(value = "scode", required = false) Long scode, 
+			
+											HttpServletResponse servletResponse,
+
+
+			HttpSession session
+			){  
+				//StudentRegistrationResp resp = new StudentRegistrationResp();
+
+		
+				System.out.println("docDescr "+docDescr);
+				System.out.println("studentId "+studentId);
+				System.out.println("scode "+scode);
+		
+				
+				System.out.println("File "+file);
+				System.out.println("File "+file.getOriginalFilename());
+				
+				
+				
+				servletResponse.addHeader("Access-Control-Allow-Origin", "*");
+
+		        String path=session.getServletContext().getRealPath("/");  
+		        String filename=file.getOriginalFilename();  
+		          
+		        System.out.println(path+" "+filename);  
+		    try{  
+		        byte barr[]=file.getBytes(); 
+		          
+		        BufferedOutputStream bout=new BufferedOutputStream(  
+		                 new FileOutputStream(path+"/"+filename));  
+		        bout.write(barr);  
+		        bout.flush();  
+		        bout.close();  
+		        
+		                
+	        }catch(Exception e){
+	        	System.out.println(e);
+	        	return "Error";
+	        }  
+	        
+	        return "Success";
+	        
+	    }  	
+		
+	
+
+	
 	@RequestMapping(value="upload_document",method=RequestMethod.POST)  
-	public StudentRegistrationResp upload(	@RequestParam CommonsMultipartFile file,
-											@RequestParam(value = "documentType", required = true) String documentType, 
-											@RequestParam(value = "studentId", required = true) Long studentId, 
-											@RequestParam(value = "scode", required = true) Long scode, 
+	public  @ResponseBody  StudentRegistrationResp upload(	@RequestParam CommonsMultipartFile file,
+											@RequestParam(value = "documentType", required = false) String documentType, 
+											@RequestParam(value = "studentId", required = false) Long studentId, 
+											@RequestParam(value = "scode", required = false) Long scode, 
 											HttpServletResponse servletResponse,
 
 
@@ -158,6 +211,9 @@ public class StudentRegistrationController {
 		        bout.write(barr);  
 		        bout.flush();  
 		        bout.close();  
+		        
+		        
+		        
 		          
 	        }catch(Exception e){System.out.println(e);}  
 	        
@@ -166,22 +222,22 @@ public class StudentRegistrationController {
 	    }  	
 		
 
-	@RequestMapping(value = "register", method = RequestMethod.PUT, produces = "application/json")
+	@RequestMapping(value = "register", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody Student register(@RequestBody Student student,
 																HttpServletRequest servletRequest,
 																HttpServletResponse servletResponse) {
 				
 		
-		System.out.println("PUT");
+		System.out.println("POST");
 		servletResponse.addHeader("Access-Control-Allow-Origin", "*");
-		StudentAccount ac  = studentRegistrationService.registerStudent("slra", student);
+		StudentAccount ac  = studentRegistrationService.registerStudent("slra", student, "otc");
 		
-		return studentRegistrationService.getStudent("slra", ac.getStudentId());
-	}
+		return studentRegistrationService.getStudent("slra", ac.getStudentId());  
+	}    
 			 
 
 	@RequestMapping(value = "registerOld", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Student registerOldStudent(
+	public @ResponseBody Student registerOldStudent(  
 				@RequestParam(value = "lastName", required = true) String lastName, 
 				@RequestParam(value = "firstName", required = true) String fistName,
 				@RequestParam(value = "middleName", required = false) String middleName,
@@ -190,16 +246,16 @@ public class StudentRegistrationController {
 				
 				
 																HttpServletRequest servletRequest,
-																HttpServletResponse servletResponse) {
+									 							HttpServletResponse servletResponse) {
 				
 		
 		System.out.println("Register Old Student");
 		servletResponse.addHeader("Access-Control-Allow-Origin", "*");
 		
-		Student student = new Student();
+		Student student = new Student();  
 		
 		student.setLastName(lastName);
-		student.setFirstName(fistName);
+		student.setFirstName(fistName); 
 		student.setMiddleName(middleName);
 		student.setBirthDate(birthDate); 
 		
@@ -207,7 +263,7 @@ public class StudentRegistrationController {
 		System.out.println("New Student "+student); 
 		//student.set
 		
-		StudentAccount ac  = studentRegistrationService.registerStudent("slra", student);
+		StudentAccount ac  = studentRegistrationService.registerStudent("slra", student, "otc");
 		
 		return studentRegistrationService.getStudent("slra", ac.getStudentId());
 	}
@@ -254,6 +310,9 @@ public class StudentRegistrationController {
 
 		servletResponse.addHeader("Access-Control-Allow-Origin", "*");
 
+		
+		System.out.println("Send user Search email.");
+		
 		return studentRegistrationService.sendUserSearchEmail(scode, emailAddress); 
 	}
 	

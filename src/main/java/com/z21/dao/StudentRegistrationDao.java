@@ -13,7 +13,8 @@ import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.z21.be.models.school.Student;
-import com.z21.be.models.school.accounts.StudentAccount; 
+import com.z21.be.models.school.accounts.StudentAccount;
+import com.z21.dao.util.EmailHandlerThread;
 import com.z21.mongo.MongoManager;
 import com.z21.services.util.EmailUtil;
  
@@ -56,7 +57,7 @@ public class StudentRegistrationDao extends AbstractDao{
 
 			break;
 		}
-		
+		mongo.close();
 		return students;
 	} 
 	
@@ -72,9 +73,7 @@ public class StudentRegistrationDao extends AbstractDao{
 	    whereQuery.put("studentId", studentId);
 		
 		DBCursor cursor = collection.find(whereQuery);
-		
-		 
-		
+				
 		
 		while(cursor.hasNext()){
 			DBObject obj = cursor.next();
@@ -88,13 +87,15 @@ public class StudentRegistrationDao extends AbstractDao{
 			break;
 		}
 		
+		mongo.close();
+
 		return acc;
 	} 
 	
 	
 	
 	
-	public StudentAccount registerStudent(String schoolCode,  Student student) {
+	public StudentAccount registerStudent(String schoolCode,  Student student, String preferredPayment) {
 		
 		MongoManager mongo = getMongoManager(schoolCode);
 		DBCollection collection = mongo.getDB().getCollection(this.collection);	
@@ -106,38 +107,52 @@ public class StudentRegistrationDao extends AbstractDao{
 		WriteResult result = collection.insert(object);
 		System.out.println(result.getUpsertedId());
 		System.out.println(result.getN());
-		System.out.println(result.isUpdateOfExisting());
-		
+		System.out.println(result.isUpdateOfExisting());		
 	
 		mongo.close(); 
 		
-		StudentAccount  account = createAccount(schoolCode, student );
+		
+		StudentAccount  account = createAccount(schoolCode, student, preferredPayment );
 		System.out.println("account "+account);
 		
+		this.sendEmail(schoolCode, id);
+		
+		String regMessage = "New Enrollee: "+student.getLastName()+", "+student.getFirstName()+"\n"+
+							"Student Type: "+student.getType()+"\n"+
+							"Email: "+student.getEmailAddress()+"\n"+
+							"Contract # "+student.getMobilePhone()+"\n"+						
+							"Preferred Payment Mode: "+preferredPayment;
+							
+		
+		  
+		
+		emailRegistrar(  schoolCode, "Ping! New Registration: "+student.getLastName()+", "+student.getFirstName(), regMessage );
+		
+
 		return account;	
 	}
 	
 
 	
-	
 	 
-	private StudentAccount createAccount(String schoolCode, Student student) {
+	private StudentAccount createAccount(String schoolCode, Student student, String preferredPayment) {
 		StudentAccount acc = new StudentAccount();
 		
 		acc.setStudentId(student.getStudentId()); 
 		acc.setAccountStatus(StudentAccount.STATUS_PENDING);
 		acc.setDateCreated(new Date() );
-		
+		acc.setPreferredPayment(preferredPayment);
 		
 		
 		MongoManager mongo = getMongoManager(schoolCode);
 		DBCollection collection = mongo.getDB().getCollection("studentaccounts");	
-		Long id = generateId(collection.getCount());
-		acc.setStudentId(id);
+		//Long id = generateId(collection.getCount());
+		//acc.setStudentId(id);
 		
 		WriteResult result = collection.insert(createDBObject(acc));
 		
-		
+		mongo.close();
+
 		return acc;
 	}
 	
@@ -180,6 +195,8 @@ public class StudentRegistrationDao extends AbstractDao{
 		
 		List<Student> students = new ArrayList<Student>();
 		
+		System.out.println("Find student "+schoolCode+" ("+this.collection+") : "+key+" -> "+filter);
+		
 		MongoManager mongo = getMongoManager(schoolCode);
 		DBCollection collection = mongo.getDB().getCollection(this.collection);
 		
@@ -200,6 +217,11 @@ public class StudentRegistrationDao extends AbstractDao{
 			students.add(convertToStudent(obj));
 		}
 		
+		mongo.close();
+		
+		
+		
+
 		return students;
 	} 
 	
@@ -226,13 +248,30 @@ public class StudentRegistrationDao extends AbstractDao{
 		return student;
 			
 		
-	}
+	} 
+
 	
+	private void emailRegistrar( String schoolCode, String title, String message) {
+		
+		//todo get schoolEmail;
+		
+		String email = "slra.tagum@gmail.com";
+		
+		System.out.println("Email the registrar "+email);
+		
+		EmailHandlerThread emailThread = new EmailHandlerThread(this.emailSender, this.emailPass, title ,email, message);
+
+		System.out.println("To Registrat Mssage "+message);
+		
+		//util.send(student.getEmailAddress(),emailTitle ,message);  
+		emailThread.start();
+		
+	}
 	
 	public String sendEmail(String scode, Long studentId) {
 		
 		Student student = this.getStudent(scode, studentId);	
-		StudentAccount acc =this.getStudentAccount(scode, studentId);
+		StudentAccount acc =this.getStudentAccount(scode, studentId); 
 		
 		System.out.println("Send email to "+student.getEmailAddress());
 			
@@ -241,20 +280,31 @@ public class StudentRegistrationDao extends AbstractDao{
 		 message =message.replaceAll("STUDENTID", studentId+"");
 
 		
-		EmailUtil util = new EmailUtil(this.emailSender, this.emailPass);
-		
+		//EmailUtil util = new EmailUtil(this.emailSender, this.emailPass);
+		EmailHandlerThread emailThread = new EmailHandlerThread(this.emailSender, this.emailPass, emailTitle, student.getEmailAddress(), message);
+
 		System.out.println("Mssage "+message);
 		
-		util.send(student.getEmailAddress(),emailTitle ,message);  
+		//util.send(student.getEmailAddress(),emailTitle ,message);  
+		emailThread.start();
 		
 		return "Sent to "+student.getEmailAddress();
 	}
 	
 
 	
+	
+	
+	
 	public String sendUserSearchEmail(String scode, String email) {
 		
+		
+		System.out.println("Send user search email. "+scode+" --> "+email);
+		
+		
 		List<Student> students = findStudents(scode, "emailAddress", email);
+		
+		System.out.println("Students: "+students);
 		
 		String accs = "";
 		
@@ -267,17 +317,20 @@ public class StudentRegistrationDao extends AbstractDao{
 				String fullname = student.getLastName()+", "+student.getFirstName()+" "+student.getMiddleName();
 				System.out.println("Send account email to "+student.getEmailAddress());
 					
-				String message = "Hi "+fullname+", \n    Your account number is: "+student.getStudentId()+".    \nStatus: "+acc.getAccountStatus()+" \n\n You may check your enrollment status here..";
+				String message = "Hi "+fullname+", \n    Your registration code is: "+student.getStudentId()+".    \nStatus: "+acc.getAccountStatus()+" \n\n You may check your enrollment status <a href=\"http://localhost:4200/slra/registration/checkStatus?regcode"+student.getStudentId()+"\" >here</a>..";
 
 	
-				EmailUtil util = new EmailUtil(this.emailSender, this.emailPass);
+				//EmailUtil util = new EmailUtil(this.emailSender, this.emailPass);
 				
 				System.out.println("Mssage "+message);
 				
 				accs = accs + "\n " +(i+1)+".) "+fullname ;
+				 
 				
+				//util.send(student.getEmailAddress(),"Student Registration status inquiry." ,message);  
 				
-				util.send(student.getEmailAddress(),"Student Registration status inquiry." ,message);  
+				EmailHandlerThread emailThread = new EmailHandlerThread(this.emailSender, this.emailPass, "Student Registration status inquiry - "+fullname, student.getEmailAddress(), message);
+				emailThread.start();
 			}
 		}
 		

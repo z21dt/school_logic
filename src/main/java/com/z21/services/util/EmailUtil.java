@@ -6,25 +6,14 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 
-public class EmailUtil{  
+public class EmailUtil {  
 	
 	final String pass;
 	
 	final String email;
-	/*
 	
-	public EmailUtil(String email, String pass) {
-	//	this.pass = "Kawbahala01";
-	//	this.email = "johnperion@gmail.com";
+	private boolean emailSent = false;
 
-		this.pass = pass;
-		this.email = email;
-		
-		//this.pass = "k1t@ybahala";
-		//this.email = "z21.customercare@gmail.com";
-	}
-		*/
-	
 	public EmailUtil(String email, String pass) {
 		
 		System.out.println("Email Sender "+email+"/"+pass);
@@ -57,18 +46,20 @@ public class EmailUtil{
            message.setText(msg);    
            //send message  
            Transport.send(message);    
-           System.out.println("message sent successfully");    
-          } catch (MessagingException e) {throw new RuntimeException(e);}    
+           System.out.println("message sent "+to);    
+           this.emailSent = true;
+          } catch (MessagingException e) {
+        	  e.printStackTrace();
+        	  throw new RuntimeException(e);
+          
+          }finally {
+        	  this.emailSent = true;
+          }
              
     }  
+    
+    public boolean isSent() {
+    	return this.emailSent;
+    }
 }  
-
-/*public class SendMailSSL{    
- public static void main(String[] args) {    
-     //from,password,to,subject,message  
-     Mailer.send("from@gmail.com","xxxxx","to@gmail.com","hello javatpoint","How r u?");  
-     //change from, password and to  
- }  
-  
-}
-*/    
+ 

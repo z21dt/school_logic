@@ -11,6 +11,8 @@ public class StudentAccount {
 	private String accountStatus;
 	
 	private Date dateCreated;
+	
+	private String preferredPayment;
 
 
 	public static final String STATUS_PENDING = "Pending";
@@ -49,13 +51,21 @@ public class StudentAccount {
 		this.accountStatus = accountStatus;
 	}
 
+	public String getPreferredPayment() {
+		return preferredPayment;
+	}
+
+	public void setPreferredPayment(String preferredPayment) {
+		this.preferredPayment = preferredPayment;
+	}
+
 	@Override
 	public String toString() {
 		return "StudentAccount [notes=" + notes + ", studentId=" + studentId + ", accountStatus=" + accountStatus
-				+ ", dateCreated=" + dateCreated + "]";
+				+ ", dateCreated=" + dateCreated + ", preferredPayment=" + preferredPayment + "]";
 	}
-	
-	
+
+
 	
 	
 	

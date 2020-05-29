@@ -63,6 +63,7 @@ public class SchoolConfigurationDao  extends AbstractDao{
 			//schools.add(convertToStudent(obj));
 		}
 		
+		mongo.close();
 		return school;
 	} 
 	
