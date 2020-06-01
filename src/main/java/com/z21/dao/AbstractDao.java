@@ -13,32 +13,10 @@ public abstract class AbstractDao {
 	protected String collection;
 		
 
-
-	private int defaultPort;
-	private String defaultHost;
-	private String mongoUser;
-	private String mongoPass;
-//	private String defaultHost = "ds249269.mlab.com";
-//	
-//	private String user = "heroku_r9h85zmp";
-//	
-//	private String password = "3tr0t4kf11ru7nnh98tc6vns20";
-
-	public String getMongoUser() {
-		return mongoUser;
-	}
-
-	public void setMongoUser(String mongoUser) {
-		this.mongoUser = mongoUser;
-	}
-
-	public String getMongoPass() {
-		return mongoPass;
-	}
-
-	public void setMongoPass(String mongoPass) {
-		this.mongoPass = mongoPass;
-	}
+	private String defaultHost = "localhost";
+	
+	private int defaultPort = 27017;
+	
 
 	public String getDefaultHost() {
 		return defaultHost;
@@ -66,8 +44,7 @@ public abstract class AbstractDao {
 	}
 
 	public MongoManager getMongoManager(String database) {
-		return new MongoManager(database, defaultHost, defaultPort, mongoUser, mongoPass);
-
+		return new MongoManager(database, defaultHost, defaultPort);
 	}
 
 	
@@ -97,7 +74,7 @@ public abstract class AbstractDao {
 	      try {
 			String jsonString = mapper.writeValueAsString(obj);
 			
-			System.out.print("JSON "+jsonString);
+			//System.out.print("JSON "+jsonString);
 			
 			 dbObject = (BasicDBObject) JSON.parse(jsonString);
 		

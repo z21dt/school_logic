@@ -13,6 +13,8 @@ public class StudentAccount {
 	private Date dateCreated;
 	
 	private String preferredPayment;
+	
+	private String registrarsNotes;
 
 
 	public static final String STATUS_PENDING = "Pending";
@@ -59,14 +61,22 @@ public class StudentAccount {
 		this.preferredPayment = preferredPayment;
 	}
 
+
+	public String getRegistrarsNotes() {
+		return registrarsNotes;
+	}
+
+	public void setRegistrarsNotes(String registrarsNotes) {
+		this.registrarsNotes = registrarsNotes;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "StudentAccount [notes=" + notes + ", studentId=" + studentId + ", accountStatus=" + accountStatus
 				+ ", dateCreated=" + dateCreated + ", preferredPayment=" + preferredPayment + "]";
 	}
-
-
-	
 	
 	
 

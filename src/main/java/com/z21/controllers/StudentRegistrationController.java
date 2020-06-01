@@ -57,7 +57,7 @@ public class StudentRegistrationController {
 		student.setBirthDate(birthDate);
 		student.setMobilePhone(mobilePhone);
 		
-		StudentAccount studentAcc = studentRegistrationService.registerStudent(scode, student , "otc" );
+		StudentAccount studentAcc = studentRegistrationService.registerStudent(scode, student , "otc" , null);
 		
 		resp.setEnrollmentStatus(studentAcc.getAccountStatus());
 		resp.setEmailAddress(emailAddress);
@@ -230,7 +230,7 @@ public class StudentRegistrationController {
 		
 		System.out.println("POST");
 		servletResponse.addHeader("Access-Control-Allow-Origin", "*");
-		StudentAccount ac  = studentRegistrationService.registerStudent("slra", student, "otc");
+		StudentAccount ac  = studentRegistrationService.registerStudent("slra", student, "otc", null);
 		
 		return studentRegistrationService.getStudent("slra", ac.getStudentId());  
 	}    
@@ -263,7 +263,7 @@ public class StudentRegistrationController {
 		System.out.println("New Student "+student); 
 		//student.set
 		
-		StudentAccount ac  = studentRegistrationService.registerStudent("slra", student, "otc");
+		StudentAccount ac  = studentRegistrationService.registerStudent("slra", student, "otc", null);
 		
 		return studentRegistrationService.getStudent("slra", ac.getStudentId());
 	}
@@ -338,6 +338,18 @@ public class StudentRegistrationController {
 			resp.setStudentName(student.getFirstName()+" "+student.getMiddleName()+" "+ student.getLastName());
 			resp.setStudentType(student.getType());
 			resp.setEmailAddress(student.getEmailAddress());
+				
+		
+			resp.setNotes(acc.getNotes());
+			
+			resp.setStatusMessage(acc.getRegistrarsNotes());
+			
+			/*if(acc.getAccountStatus() != null && acc.getAccountStatus().equals("Pending")) {
+				resp.setStatusMessage("Please upload a picture of your prof of payment.");
+			}
+			*/ 
+		   
+			resp.setPaymentSelected(acc.getPreferredPayment());
 		}
 		
 		return resp;
@@ -356,6 +368,7 @@ public class StudentRegistrationController {
 		servletResponse.addHeader("Access-Control-Allow-Origin", "*");
 
 		StudentRegistrationResp resp = new StudentRegistrationResp();
+		//studentRegistrationService.updateStudentAccount(schooCode, acc)
 		
 		return resp;
 	}

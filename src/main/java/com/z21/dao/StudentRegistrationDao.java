@@ -4,19 +4,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
-import com.mongodb.util.JSON;
+import com.z21.be.models.school.ReferenceDocument;
 import com.z21.be.models.school.Student;
 import com.z21.be.models.school.accounts.StudentAccount;
 import com.z21.dao.util.EmailHandlerThread;
+import com.z21.fe.models.resp.EnrolleesResp;
 import com.z21.mongo.MongoManager;
-import com.z21.services.util.EmailUtil;
  
 public class StudentRegistrationDao extends AbstractDao{
 	
@@ -35,6 +33,55 @@ public class StudentRegistrationDao extends AbstractDao{
 		this.collection = "students";
 	}
 	
+	public void saveReferenceDocument(String scode, ReferenceDocument ref ) {
+			
+		MongoManager mongo = getMongoManager(scode);
+		DBCollection collection = mongo.getDB().getCollection("studentdocuments");	
+		//Long id = generateId(collection.getCount());
+		//acc.setStudentId(id);		
+		//WriteResult result = collection.insert(createDBObject(ref));	
+		
+	    BasicDBObject whereQuery = new BasicDBObject();
+	    whereQuery.put("studentId", ref.getStudentId());
+		
+		
+		WriteResult result = collection.update(whereQuery, createDBObject(ref), true, false);
+		
+		mongo.close();
+		
+	}
+	
+	
+	public List<ReferenceDocument> getReferenceDocuments(String scode, Long studentId ) {
+		
+		
+		List<ReferenceDocument>  documents = new ArrayList<ReferenceDocument>();
+		
+		MongoManager mongo = getMongoManager(scode);
+		DBCollection collection = mongo.getDB().getCollection("studentdocuments");	
+		
+	    BasicDBObject whereQuery = new BasicDBObject();
+	    whereQuery.put("studentId", studentId);
+		
+		DBCursor cursor = collection.find(whereQuery);
+		
+		while(cursor.hasNext()){
+			DBObject obj = cursor.next();
+			
+			ReferenceDocument doc = new ReferenceDocument();
+			doc.setDocName(getString(obj, "docName"));
+			doc.setPath(getString(obj, "path"));
+			doc.setStudentId(getLong(obj, "studentId"));
+			documents.add(doc);
+			
+		}		
+		mongo.close();
+		
+		return documents;
+		
+	}
+	
+	
 	public Student getStudent(String schoolCode, Long studentId) {
 		
 		Student students = null;
@@ -46,9 +93,7 @@ public class StudentRegistrationDao extends AbstractDao{
 	    whereQuery.put("studentId", studentId);
 		
 		DBCursor cursor = collection.find(whereQuery);
-		
-		 
-		
+			 	
 		
 		while(cursor.hasNext()){
 			DBObject obj = cursor.next();
@@ -61,6 +106,46 @@ public class StudentRegistrationDao extends AbstractDao{
 		return students;
 	} 
 	
+	
+	public List<EnrolleesResp> getEnrollees(String schoolCode) {
+		List<EnrolleesResp> enrollees = new ArrayList<EnrolleesResp>();
+		
+		MongoManager mongo = getMongoManager(schoolCode);
+		DBCollection collection = mongo.getDB().getCollection(this.collection);
+		
+		DBCursor cursor = collection.find();
+			 	
+		
+		while(cursor.hasNext()){
+			DBObject obj = cursor.next();
+			
+			EnrolleesResp enrollee = new EnrolleesResp();
+			
+			enrollee.setGradeLevel(getString(obj, "gradeLevel"));
+			
+			String name = getString(obj, "firstName")+" "+getString(obj, "middleName")+" "+getString(obj, "lastName");
+			enrollee.setStudentName(name);			
+			enrollee.setStudentType(getString(obj, "type"));
+			enrollee.setStudentId(getLong(obj, "studentId"));
+
+			
+	
+			StudentAccount acc  = getStudentAccount(schoolCode, getLong(obj, "studentId"));
+			
+			enrollee.setStatus(acc.getAccountStatus());
+			enrollee.setNotes(acc.getNotes());
+			enrollee.setPreferredPayment(acc.getPreferredPayment());	
+			enrollee.setRegNotes(acc.getRegistrarsNotes());
+
+			
+			enrollees.add(enrollee);
+			
+		}
+		mongo.close();
+		
+		return enrollees;
+		
+	}
 	
 	public StudentAccount getStudentAccount(String schoolCode, Long studentId) {
 		
@@ -79,9 +164,19 @@ public class StudentRegistrationDao extends AbstractDao{
 			DBObject obj = cursor.next();
 			
 			if(obj != null) {
+				
 				acc.setAccountStatus(getString(obj , "accountStatus") );
 				acc.setStudentId(getLong(obj , "studentId") );
 				acc.setNotes(getString(obj , "notes") );
+				acc.setPreferredPayment(getString(obj, "preferredPayment"));
+				acc.setRegistrarsNotes(getString(obj, "registrarsNotes"));
+				
+				Long dateLong = (Long)obj.get("dateCreated");
+				if( dateLong != null) {
+					acc.setDateCreated(new Date(dateLong) );
+
+				}
+				
 			}
 
 			break;
@@ -95,7 +190,7 @@ public class StudentRegistrationDao extends AbstractDao{
 	
 	
 	
-	public StudentAccount registerStudent(String schoolCode,  Student student, String preferredPayment) {
+	public StudentAccount registerStudent(String schoolCode,  Student student, String preferredPayment, String notes) {
 		
 		MongoManager mongo = getMongoManager(schoolCode);
 		DBCollection collection = mongo.getDB().getCollection(this.collection);	
@@ -112,7 +207,7 @@ public class StudentRegistrationDao extends AbstractDao{
 		mongo.close(); 
 		
 		
-		StudentAccount  account = createAccount(schoolCode, student, preferredPayment );
+		StudentAccount  account = createAccount(schoolCode, student, preferredPayment, notes );
 		System.out.println("account "+account);
 		
 		this.sendEmail(schoolCode, id);
@@ -133,15 +228,14 @@ public class StudentRegistrationDao extends AbstractDao{
 	}
 	
 
-	
-	 
-	private StudentAccount createAccount(String schoolCode, Student student, String preferredPayment) {
+	private StudentAccount createAccount(String schoolCode, Student student, String preferredPayment, String notes) {
 		StudentAccount acc = new StudentAccount();
 		
 		acc.setStudentId(student.getStudentId()); 
 		acc.setAccountStatus(StudentAccount.STATUS_PENDING);
 		acc.setDateCreated(new Date() );
-		acc.setPreferredPayment(preferredPayment);
+		acc.setPreferredPayment(preferredPayment); 
+		acc.setNotes(notes);
 		
 		
 		MongoManager mongo = getMongoManager(schoolCode);
@@ -176,7 +270,6 @@ public class StudentRegistrationDao extends AbstractDao{
 		return obj;
 		
 	}
-	
 	
 	private Long generateId(Long count) {
 		count++;
@@ -339,6 +432,35 @@ public class StudentRegistrationDao extends AbstractDao{
 		return accs;
 	}
  
+	
+	
+	public StudentAccount updateStudentAccount(String schooCode, StudentAccount acc) {
+		
+		System.out.println("Update student Account Status "+acc);
+		
+		StudentAccount db_acc = getStudentAccount(schooCode, acc.getStudentId());
+		
+		db_acc.setAccountStatus(acc.getAccountStatus());
+		db_acc.setRegistrarsNotes(acc.getRegistrarsNotes());
+		
+		MongoManager mongo = getMongoManager(schooCode);
+		DBCollection collection = mongo.getDB().getCollection("studentaccounts");
+		
+		
+	    BasicDBObject whereQuery = new BasicDBObject();
+	    whereQuery.put("studentId", acc.getStudentId());
+	    
+	    
+	    collection.update(whereQuery, createDBObject(db_acc), false, false);
+
+	    mongo.close();
+		
+		return db_acc;
+	}
+	
+	
+	
+	
 	
 	public String getEmailSender() {
 		return emailSender;

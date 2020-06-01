@@ -16,6 +16,9 @@ public class StudentRegistrationResp extends AbstractResp{
 	
 	private String studentType;
 	
+	private String paymentSelected;
+	
+	private String notes;
 
 	public Long getStudentId() {
 		return studentId;
@@ -56,7 +59,23 @@ public class StudentRegistrationResp extends AbstractResp{
 	public void setStudentType(String studentType) {
 		this.studentType = studentType;
 	}
+
+
+	public String getPaymentSelected() {
+		return paymentSelected;
+	}
+
+	public void setPaymentSelected(String paymentSelected) {
+		this.paymentSelected = paymentSelected;
+	}
 	
-	
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
 
 }
