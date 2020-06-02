@@ -36,7 +36,7 @@ public class StudentRegistrationDao extends AbstractDao{
 	public void saveReferenceDocument(String scode, ReferenceDocument ref ) {
 			
 		MongoManager mongo = getMongoManager(scode);
-		DBCollection collection = mongo.getDB().getCollection("studentdocuments");	
+		DBCollection collection = mongo.getDB().getCollection(scode+"_"+"studentdocuments");	
 		//Long id = generateId(collection.getCount());
 		//acc.setStudentId(id);		
 		//WriteResult result = collection.insert(createDBObject(ref));	
@@ -58,7 +58,7 @@ public class StudentRegistrationDao extends AbstractDao{
 		List<ReferenceDocument>  documents = new ArrayList<ReferenceDocument>();
 		
 		MongoManager mongo = getMongoManager(scode);
-		DBCollection collection = mongo.getDB().getCollection("studentdocuments");	
+		DBCollection collection = mongo.getDB().getCollection(scode+"_"+"studentdocuments");	
 		
 	    BasicDBObject whereQuery = new BasicDBObject();
 	    whereQuery.put("studentId", studentId);
@@ -87,7 +87,7 @@ public class StudentRegistrationDao extends AbstractDao{
 		Student students = null;
 		
 		MongoManager mongo = getMongoManager(schoolCode);
-		DBCollection collection = mongo.getDB().getCollection(this.collection);
+		DBCollection collection = mongo.getDB().getCollection(schoolCode+"_"+this.collection);
 		
 	    BasicDBObject whereQuery = new BasicDBObject();
 	    whereQuery.put("studentId", studentId);
@@ -111,7 +111,7 @@ public class StudentRegistrationDao extends AbstractDao{
 		List<EnrolleesResp> enrollees = new ArrayList<EnrolleesResp>();
 		
 		MongoManager mongo = getMongoManager(schoolCode);
-		DBCollection collection = mongo.getDB().getCollection(this.collection);
+		DBCollection collection = mongo.getDB().getCollection(schoolCode+"_"+this.collection);
 		
 		DBCursor cursor = collection.find();
 			 	
@@ -152,7 +152,7 @@ public class StudentRegistrationDao extends AbstractDao{
 		StudentAccount acc = new StudentAccount();
 		
 		MongoManager mongo = getMongoManager(schoolCode);
-		DBCollection collection = mongo.getDB().getCollection("studentaccounts");
+		DBCollection collection = mongo.getDB().getCollection(schoolCode+"_"+"studentaccounts");
 		
 	    BasicDBObject whereQuery = new BasicDBObject();
 	    whereQuery.put("studentId", studentId);
@@ -193,7 +193,7 @@ public class StudentRegistrationDao extends AbstractDao{
 	public StudentAccount registerStudent(String schoolCode,  Student student, String preferredPayment, String notes) {
 		
 		MongoManager mongo = getMongoManager(schoolCode);
-		DBCollection collection = mongo.getDB().getCollection(this.collection);	
+		DBCollection collection = mongo.getDB().getCollection(schoolCode+"_"+this.collection);	
 				
 		Long id = generateId(collection.getCount());
 		student.setStudentId(id);
@@ -239,7 +239,7 @@ public class StudentRegistrationDao extends AbstractDao{
 		
 		
 		MongoManager mongo = getMongoManager(schoolCode);
-		DBCollection collection = mongo.getDB().getCollection("studentaccounts");	
+		DBCollection collection = mongo.getDB().getCollection(schoolCode+"_"+"studentaccounts");	
 		//Long id = generateId(collection.getCount());
 		//acc.setStudentId(id);
 		
@@ -291,7 +291,7 @@ public class StudentRegistrationDao extends AbstractDao{
 		System.out.println("Find student "+schoolCode+" ("+this.collection+") : "+key+" -> "+filter);
 		
 		MongoManager mongo = getMongoManager(schoolCode);
-		DBCollection collection = mongo.getDB().getCollection(this.collection);
+		DBCollection collection = mongo.getDB().getCollection(schoolCode+"_"+this.collection);
 		
 		
 		DBCursor cursor = null;
@@ -444,7 +444,7 @@ public class StudentRegistrationDao extends AbstractDao{
 		db_acc.setRegistrarsNotes(acc.getRegistrarsNotes());
 		
 		MongoManager mongo = getMongoManager(schooCode);
-		DBCollection collection = mongo.getDB().getCollection("studentaccounts");
+		DBCollection collection = mongo.getDB().getCollection(schooCode+"_"+"studentaccounts");
 		
 		
 	    BasicDBObject whereQuery = new BasicDBObject();

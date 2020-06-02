@@ -17,6 +17,9 @@ public class MongoManager {
 	private int port;
 	
 	
+	private String db_user = "heroku_r9h85zmp";
+	private String db_pass  = "3tr0t4kf11ru7nnh98tc6vns20";
+	
 	private MongoClient mongoClient;
 	
 	private MongoManager() {
@@ -26,7 +29,7 @@ public class MongoManager {
 	
 	public MongoManager(String database, String host, int port) {
 		
-		System.out.println("Mongo Manager "+host+":"+port+"/"+database);
+		System.out.println("Mongo Manager "+host+":"+port+"/"+db_user);
 		this.database = database;
 		this.host = host;
 		this.port = port;
@@ -34,11 +37,12 @@ public class MongoManager {
 		//mongoClient = new MongoClient(host, port);
 		
 		
-		 String user ="heroku_r9h85zmp"; // the user name
+		 String user = this.db_user;//"heroku_r9h85zmp"; // the user name
 		// String database = "admin"; // the name of the database in which the user is defined
-		 char[] password ="3tr0t4kf11ru7nnh98tc6vns20".toCharArray(); // the password as a character array
+		 char[] password =db_pass.toCharArray(); // the password as a character array
 		 // ...
 
+		 
 		 MongoCredential credential = MongoCredential.createCredential(user, "admin", password);
 
 		// MongoClientOptions options = MongoClientOptions.builder().sslEnabled(true).build();
@@ -50,11 +54,12 @@ public class MongoManager {
 
 	public String getDatabase() {
 		return database;
-	}
+	} 
 
+	/*
 	public void setDatabase(String database) {
 		this.database = database;
-	}
+	}*/
 
 	public String getHost() {
 		return host;
@@ -73,7 +78,9 @@ public class MongoManager {
 	}
 	
 	public DB getDB() {
-		return mongoClient.getDB(database);
+		
+		 return mongoClient.getDB(db_user);
+		//return mongoClient.getDB(database);
 		
 	}
 	
