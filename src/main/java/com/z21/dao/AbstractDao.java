@@ -23,26 +23,9 @@ public abstract class AbstractDao {
 	private int defaultPort = 49269;
 	
 
-	private String user = "heroku_r9h85zmp";
-	
-	private String password = "3tr0t4kf11ru7nnh98tc6vns20";
 	
 
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-=======
+	
 	private String dbname = "heroku_r9h85zmp";
 	
 	private String dbuser;
@@ -62,7 +45,7 @@ public abstract class AbstractDao {
 
 	public String getDbpass() {
 		return dbpass;
->>>>>>> b_mvp_1
+
 	}
 
 	public void setDbpass(String dbpass) {
@@ -103,13 +86,11 @@ public abstract class AbstractDao {
 	}
 
 	public MongoManager getMongoManager() {
-<<<<<<< HEAD
-		return new MongoManager(database, defaultHost, defaultPort, user, password);
-=======
+
 		
 		return new MongoManager(dbname, defaultHost, defaultPort);
->>>>>>> b_mvp_1
-	}
+
+	} 
 
 	
 
