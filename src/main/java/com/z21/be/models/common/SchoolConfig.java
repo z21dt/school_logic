@@ -26,15 +26,7 @@ public class SchoolConfig {
 	
 	private String address;
 	
-	private String logo;
-
-	public String getLogo() {
-		return logo;
-	}
-
-	public void setLogo(String logo) {
-		this.logo = logo;
-	}
+	
 
 	private String logo;
 	
