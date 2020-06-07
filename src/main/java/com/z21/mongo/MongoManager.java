@@ -74,14 +74,15 @@ public class MongoManager {
 
 		 
 		 MongoCredential credentials = MongoCredential.createScramSha1Credential(user, dbName, password);
-
-		// MongoClientOptions options = MongoClientOptions.builder().sslEnabled(true).build();
+		 MongoClientOptions options = MongoClientOptions.builder().retryWrites(false).build();
+		//MongoClientOptions options = MongoClientOptions.builder().sslEnabled(true).build();
 //		 MongoClientOptions options = MongoClientOptions.builder().sslEnabled(false).build();
 //		 mongoClient = new MongoClient(new ServerAddress("localhost", 27017),
 //		                                           Arrays.asList(credential),
-//		                                           options);
+//		 
+		 mongoClient = new MongoClient(new ServerAddress(host,port), Arrays.asList(credentials), options);
 		 
-		 mongoClient = new MongoClient(new ServerAddress(host,port), Arrays.asList(credentials));
+		 
 	}
 
 	
