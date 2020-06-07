@@ -6,9 +6,21 @@
 			 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 			 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+<<<<<<< HEAD
 	<!-- <beans:bean id="propertyConfigurer"
 				class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 				p:location="file:/etc/tomcat7/rmx-environment.properties" /> -->
+=======
+
+<!-- classpath: -->
+<!-- file:/Users/johnperion/WorkFiles/z21/sara/webservice/school_reg_ws/src/main/resources/school_reg_application.properties -->
+
+	<beans:bean id="propertyConfigurer"
+				class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+				p:location="classpath:/school_reg_application.properties" />
+				
+				
+>>>>>>> b_mvp_1
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 
 	<!-- Enables the Spring MVC @Controller programming model -->
@@ -17,7 +29,11 @@
 	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<beans:property name="messageConverters">
 			<beans:list>
+<<<<<<< HEAD
 				<beans:ref bean="jsonMessageConverter" />
+=======
+				<beans:ref bean="jsonMessageConverter" /> 
+>>>>>>> b_mvp_1
 			</beans:list>
 		</beans:property>
 	</beans:bean>
@@ -45,6 +61,21 @@
 	
 
 	<beans:bean id="StudentRegistrationDao" class="com.z21.dao.StudentRegistrationDao">
+<<<<<<< HEAD
+=======
+			<beans:property name="defaultHost" value="${mongo.db.host}" />
+			<beans:property name="defaultPort" value="${mongo.db.port}" />	
+			<beans:property name="dbname" value="${mongo.db.dbname}" />
+			<beans:property name="dbuser" value="${mongo.db.dbuser}" />
+			<beans:property name="dbpass" value="${mongo.db.dbpass}" />
+			
+			<beans:property name="emailSender" value="${email.sender}" />	
+			<beans:property name="emailTitle" value="${email.title}" />	
+			<beans:property name="emailMessage" value="${email.message}" />	
+			<beans:property name="emailPass" value="${email.pass}" />	
+			
+			
+>>>>>>> b_mvp_1
 	</beans:bean>
 
 
@@ -54,9 +85,31 @@
 	
 	
 	<beans:bean id="UserAuthenticationDao" class="com.z21.dao.UserAuthenticationDao">
+<<<<<<< HEAD
 	</beans:bean>
 
 
 
+=======
+			<beans:property name="defaultHost" value="${mongo.db.host}" />
+			<beans:property name="defaultPort" value="${mongo.db.port}" />	
+	</beans:bean>
+	
+	
+		
+	<beans:bean id="SchoolConfigurationService" class="com.z21.services.SchoolConfigurationService">
+		<beans:property name="configurationDao" ref="SchoolConfigurationDao" />
+	</beans:bean>
+
+	<beans:bean id="SchoolConfigurationDao" class="com.z21.dao.SchoolConfigurationDao">
+			<beans:property name="defaultHost" value="${mongo.db.host}" />
+			<beans:property name="defaultPort" value="${mongo.db.port}" />			
+	</beans:bean>
+
+
+	 <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	     <beans:property name="maxUploadSize" value="20971520"/>
+	 </beans:bean> 
+>>>>>>> b_mvp_1
 
 </beans:beans>

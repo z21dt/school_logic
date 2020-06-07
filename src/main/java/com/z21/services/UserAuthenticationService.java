@@ -2,7 +2,7 @@ package com.z21.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.z21.be.models.User;
+import com.z21.be.models.common.User;
 import com.z21.dao.UserAuthenticationDao;
 
 public class UserAuthenticationService {
@@ -14,7 +14,7 @@ public class UserAuthenticationService {
 		return userAuthenticationDao.authenticate(userName, pass);		
 	}
 	
-	public User registerNewUser(User user) {	
+	public User registerNewUser(com.z21.be.models.common.User user) {	
 		return userAuthenticationDao.registerNewUser(user);
 	}
 	

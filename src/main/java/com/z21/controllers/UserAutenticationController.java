@@ -7,9 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.z21.be.models.User;
+import com.z21.be.models.common.User;
 import com.z21.fe.models.UserLoginReq;
 import com.z21.fe.models.UserLoginResp;
 import com.z21.services.UserAuthenticationService;
@@ -20,7 +21,7 @@ import com.z21.services.UserAuthenticationService;
 public class UserAutenticationController {
 	
 	
-	@Autowired
+	@Autowired  
 	UserAuthenticationService userAuthenticationService;
 	
 	
@@ -64,7 +65,19 @@ public class UserAutenticationController {
 		
 		
 		return resp;
-	}
+	} 
 			 
 
+	
+	@RequestMapping(value = "getToken", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody String register(  @RequestParam(value = "scode", required = true) String scode,
+										   @RequestParam(value = "userName", required = true) String userName,
+										   @RequestParam(value = "pass", required = true) String pass,
+																HttpServletResponse servletResponse) {
+
+		String token = null;	
+		
+		return token;
+	}
+			 
 }
