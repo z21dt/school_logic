@@ -25,7 +25,7 @@ public class SchoolConfigurationDao  extends AbstractDao{
 	
 	public SchoolConfig createSchoolInfo(SchoolConfig school) {
 		
-		MongoManager mongo = getMongoManager(database);
+		MongoManager mongo = getMongoManager();
 		DBCollection collection = mongo.getDB().getCollection(this.collection);
 		
 		
@@ -46,7 +46,7 @@ public class SchoolConfigurationDao  extends AbstractDao{
 		
 		List<SchoolConfig> schools = new ArrayList<SchoolConfig>();
 		
-		MongoManager mongo = getMongoManager(database);
+		MongoManager mongo = getMongoManager();
 		DBCollection collection = mongo.getDB().getCollection(this.collection);
 		
 		 BasicDBObject whereQuery = new BasicDBObject();
@@ -109,7 +109,7 @@ public class SchoolConfigurationDao  extends AbstractDao{
 		BasicDBObject searchQuery = new BasicDBObject();
 		searchQuery.append("schoolCode", school.getSchoolCode());
 		
-		MongoManager mongo = getMongoManager(database);
+		MongoManager mongo = getMongoManager();
 		DBCollection collection = mongo.getDB().getCollection(this.collection);
 		collection.update(searchQuery, createDBObject(school));
 

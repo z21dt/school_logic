@@ -6,9 +6,15 @@
 			 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 			 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+
+<!-- classpath: -->
+<!-- file:/Users/johnperion/WorkFiles/z21/sara/webservice/school_reg_ws/src/main/resources/school_reg_application.properties -->
+
 	<beans:bean id="propertyConfigurer"
 				class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 				p:location="classpath:/school_reg_application.properties" />
+				
+				
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 
 	<!-- Enables the Spring MVC @Controller programming model -->
@@ -47,6 +53,9 @@
 	<beans:bean id="StudentRegistrationDao" class="com.z21.dao.StudentRegistrationDao">
 			<beans:property name="defaultHost" value="${mongo.db.host}" />
 			<beans:property name="defaultPort" value="${mongo.db.port}" />	
+			<beans:property name="dbname" value="${mongo.db.dbname}" />
+			<beans:property name="dbuser" value="${mongo.db.dbuser}" />
+			<beans:property name="dbpass" value="${mongo.db.dbpass}" />
 			
 			<beans:property name="emailSender" value="${email.sender}" />	
 			<beans:property name="emailTitle" value="${email.title}" />	
@@ -64,9 +73,7 @@
 	
 	<beans:bean id="UserAuthenticationDao" class="com.z21.dao.UserAuthenticationDao">
 			<beans:property name="defaultHost" value="${mongo.db.host}" />
-			<beans:property name="defaultPort" value="${mongo.db.port}" />		
-			<beans:property name="mongoUser" value="${mongo.db.user}" />	
-			<beans:property name="mongoPass" value="${mongo.db.pass}" />		
+			<beans:property name="defaultPort" value="${mongo.db.port}" />	
 	</beans:bean>
 	
 	
@@ -77,10 +84,12 @@
 
 	<beans:bean id="SchoolConfigurationDao" class="com.z21.dao.SchoolConfigurationDao">
 			<beans:property name="defaultHost" value="${mongo.db.host}" />
-			<beans:property name="defaultPort" value="${mongo.db.port}" />		
-			<beans:property name="mongoUser" value="${mongo.db.user}" />	
-			<beans:property name="mongoPass" value="${mongo.db.pass}" />	
+			<beans:property name="defaultPort" value="${mongo.db.port}" />			
 	</beans:bean>
 
+
+	 <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	     <beans:property name="maxUploadSize" value="20971520"/>
+	 </beans:bean> 
 
 </beans:beans>

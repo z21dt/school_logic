@@ -17,6 +17,38 @@ public abstract class AbstractDao {
 	
 	private int defaultPort = 27017;
 	
+	private String dbname = "heroku_r9h85zmp";
+	
+	private String dbuser;
+	
+	private String dbpass;
+	
+
+	
+
+	public String getDbuser() {
+		return dbuser;
+	}
+
+	public void setDbuser(String dbuser) {
+		this.dbuser = dbuser;
+	}
+
+	public String getDbpass() {
+		return dbpass;
+	}
+
+	public void setDbpass(String dbpass) {
+		this.dbpass = dbpass;
+	}
+
+	public String getDbname() {
+		return dbname;
+	}
+
+	public void setDbname(String dbname) {
+		this.dbname = dbname;
+	}
 
 	public String getDefaultHost() {
 		return defaultHost;
@@ -43,8 +75,9 @@ public abstract class AbstractDao {
 		this.collection = collection;
 	}
 
-	public MongoManager getMongoManager(String database) {
-		return new MongoManager(database, defaultHost, defaultPort);
+	public MongoManager getMongoManager() {
+		
+		return new MongoManager(dbname, defaultHost, defaultPort);
 	}
 
 	

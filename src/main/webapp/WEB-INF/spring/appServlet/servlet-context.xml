@@ -53,6 +53,9 @@
 	<beans:bean id="StudentRegistrationDao" class="com.z21.dao.StudentRegistrationDao">
 			<beans:property name="defaultHost" value="${mongo.db.host}" />
 			<beans:property name="defaultPort" value="${mongo.db.port}" />	
+			<beans:property name="dbname" value="${mongo.db.dbname}" />
+			<beans:property name="dbuser" value="${mongo.db.dbuser}" />
+			<beans:property name="dbpass" value="${mongo.db.dbpass}" />
 			
 			<beans:property name="emailSender" value="${email.sender}" />	
 			<beans:property name="emailTitle" value="${email.title}" />	

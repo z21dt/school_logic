@@ -19,7 +19,7 @@ public class UserAuthenticationDao extends AbstractDao{
 	
 	public User registerNewUser(User user) {
 		
-		MongoManager mongo = getMongoManager(database);
+		MongoManager mongo = getMongoManager();
 		DBCollection collection = mongo.getDB().getCollection(this.collection);
 		WriteResult result = collection.insert(createUserObject(user));
 			
@@ -55,7 +55,7 @@ public class UserAuthenticationDao extends AbstractDao{
 	public User authenticate(String userName, String password) {
 		User user = null;
 		
-		MongoManager mongo = getMongoManager(database);
+		MongoManager mongo = getMongoManager();
 		
 		DBObject query = BasicDBObjectBuilder.start().add("userName", userName).get();
 		DBObject result = mongo.getDB().getCollection(this.collection).findOne(query);

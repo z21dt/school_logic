@@ -10,7 +10,7 @@ import com.mongodb.ServerAddress;
 
 public class MongoManager {
 		
-	private String database;
+	private String dbName;
 	
 	private String host;
 	
@@ -27,10 +27,11 @@ public class MongoManager {
 		
 	}
 	
-	public MongoManager(String database, String host, int port) {
+	public MongoManager(String dbName, String host, int port) {
 		
 		System.out.println("Mongo Manager "+host+":"+port+"/"+db_user);
-		this.database = database;
+		
+		this.dbName = dbName;
 		this.host = host;
 		this.port = port;
 		
@@ -43,23 +44,18 @@ public class MongoManager {
 		 // ...
 
 		 
-		 MongoCredential credential = MongoCredential.createCredential(user, "admin", password);
+		 MongoCredential credentials = MongoCredential.createScramSha1Credential(user, dbName, password);
 
 		// MongoClientOptions options = MongoClientOptions.builder().sslEnabled(true).build();
-		 MongoClientOptions options = MongoClientOptions.builder().sslEnabled(false).build();
-		 mongoClient = new MongoClient(new ServerAddress("localhost", 27017),
-		                                           Arrays.asList(credential),
-		                                           options);
+//		 MongoClientOptions options = MongoClientOptions.builder().sslEnabled(false).build();
+//		 mongoClient = new MongoClient(new ServerAddress("localhost", 27017),
+//		                                           Arrays.asList(credential),
+//		                                           options);
+		 
+		 mongoClient = new MongoClient(new ServerAddress(host,port), Arrays.asList(credentials));
 	}
 
-	public String getDatabase() {
-		return database;
-	} 
-
-	/*
-	public void setDatabase(String database) {
-		this.database = database;
-	}*/
+	
 
 	public String getHost() {
 		return host;
