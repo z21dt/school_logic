@@ -6,11 +6,11 @@
 			 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 			 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-<<<<<<< HEAD
+
 	<!-- <beans:bean id="propertyConfigurer"
 				class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-				p:location="file:/etc/tomcat7/rmx-environment.properties" /> -->
-=======
+				p:location="file:/etc/tomcat7/rmx-environment.properties" /> --> 
+
 
 <!-- classpath: -->
 <!-- file:/Users/johnperion/WorkFiles/z21/sara/webservice/school_reg_ws/src/main/resources/school_reg_application.properties -->
@@ -19,8 +19,7 @@
 				class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 				p:location="classpath:/school_reg_application.properties" />
 				
-				
->>>>>>> b_mvp_1
+
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 
 	<!-- Enables the Spring MVC @Controller programming model -->
